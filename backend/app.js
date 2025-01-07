@@ -202,7 +202,7 @@ app.listen(PORT, () => {
     });
 });  
 
-app.get('/universities', async (req, res) => {
+app.get('/universities',checkAuthenticated ,async (req, res,next) => {
   try {
     const universities = await University.find({}); // Fetch only the 'name' field
     res.json(universities);
