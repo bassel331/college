@@ -22,19 +22,31 @@ router.get('/filter', async (req, res) => {
 
     const query = { 'majorsAvailable.name': { $regex: major, $options: 'i' } };
   
-    let universities = await University.find(query);
+    let universities =await University.find(query);
     
     if (sortBy === 'tuitionFees') {
+        
       for (let i = 0; i < universities.length; i++) {
-        const sortOrder = order === 'desc' ? -1 : 1;
         const filteredMajors= universities[i].majorsAvailable.filter(majorName => majorName.name === major)
-        universities[i].majorsAvailable=await filteredMajors
+        universities[i].majorsAvailable= filteredMajors
      }
-     universities = universities.sort({ 'name': sortOrder });
+     const sortOrder = order === 'desc' ? -1 : 1;
+     universities = universities.sort((a, b) => {
+        const tuitionA = a.majorsAvailable[0]?.tuitionFees || 0; 
+        const tuitionB = b.majorsAvailable[0]?.tuitionFees || 0;
+        if (tuitionA < tuitionB) return -1 * sortOrder;
+        if (tuitionA > tuitionB) return 1 * sortOrder;
+        return 0;
+      });
+    
     }
     if (sortBy === 'name') {
         const sortOrder = order === 'desc' ? -1 : 1;
-        universities = universities.sort({ 'name': sortOrder });
+        universities = universities.sort((a, b) => {
+            if (a.name < b.name) return -1 * sortOrder;
+            if (a.name > b.name) return 1 * sortOrder;
+            return 0;
+          });
       }
     const results=await universities; 
     res.json(results);
