@@ -80,4 +80,31 @@ router.get('/search', checkAuthenticated, async (req, res) => {
   }
 });
 
+router.get('/:uniID', async (req, res) => {
+  try {
+    const university = await University.findById(req.params.uniID);
+    if (!university) {
+      return res.status(404).json({ error: 'University not found' });
+    }
+    res.json(university);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/:uniID/:majorname', async (req, res) => {
+  try {
+    const university = await University.findById(req.params.uniID);
+    const major = university.majorsAvailable.find((m) => m.name.toLowerCase() === req.params.majorname.toLowerCase()
+    );
+
+    if (!major) {
+      return res.status(404).json({ error: 'University not found' });
+    }
+    res.json(major);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

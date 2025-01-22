@@ -1,0 +1,35 @@
+/* Navbar.module.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333;
+  }
+  
+  .navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .navLinks {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+  
+  .navLinks li {
+    padding: 5px 10px;
+  }
+  
+  .navLinks li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .navLinks li a:hover {
+    text-decoration: underline;
+  }
+  
