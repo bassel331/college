@@ -1,19 +1,29 @@
 import { useState } from "react";
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; 
 import "./App.css";
-import { SearchBar } from "./components/SearchBar";
-import { SearchResultsList } from "./components/SearchResultsList";
-
+import { SearchBar } from "./components/searchComponents/SearchBar";
+import { SearchResultsList } from "./components/searchComponents/SearchResultsList";
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import LoginForm from "./components/loginForm"; 
 function App() {
   const [results, setResults] = useState([]);
 
   return (
-    <div className="App">
-      <div className="search-bar-container">
-        <SearchBar setResults={setResults} />
-        {results && results.length > 0 && <SearchResultsList results={results} />}
-      </div>
-    </div>
+    <Router>
+        <Routes> 
+        <Route path="/" element={<LoginForm />} />
+        <Route
+            path="/search"
+            element={
+              <div>
+                <SearchBar setResults={setResults} />
+                <SearchResultsList results={results} />
+              </div>
+            }
+          />
+        </Routes>
+     
+    </Router>
   );
 }
 
