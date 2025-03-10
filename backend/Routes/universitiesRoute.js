@@ -1,9 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const universityRouter = express.Router();
 const { checkAuthenticated } = require('../Middleware/middleWare');
 const University = require('../Modules/UniversitySchema.js');
 
-router.get('/', checkAuthenticated,async (req, res) => {
+universityRouter.get('/', checkAuthenticated,async (req, res) => {
     try {
       const universities = await University.find({});
       res.json(universities);
@@ -12,7 +12,7 @@ router.get('/', checkAuthenticated,async (req, res) => {
     }
   });
 
-router.get('/filter', async (req, res) => {
+universityRouter.get('/filter', async (req, res) => {
   try {
     const { major, sortBy, order } = req.query;
 
@@ -56,7 +56,7 @@ router.get('/filter', async (req, res) => {
 });
 
 // Search universities by name
-router.get('/search', checkAuthenticated, async (req, res) => {
+universityRouter.get('/search', checkAuthenticated, async (req, res) => {
   try {
     const { name, sortBy, order } = req.query;
 
@@ -80,4 +80,4 @@ router.get('/search', checkAuthenticated, async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = universityRouter;

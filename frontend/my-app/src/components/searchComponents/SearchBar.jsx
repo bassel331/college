@@ -8,7 +8,7 @@ export const SearchBar = ({ setResults }) => {
 
   const fetchData = (value) => {
   
-    fetch("http://localhost:3030/universities")
+    fetch("http://localhost:3030/search")
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
