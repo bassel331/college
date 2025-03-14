@@ -2,7 +2,6 @@ const express = require('express');
 const { checkAuthenticated, checkNotAuthenticated } = require('../Middleware/middleWare');
 const router = express.Router();
 const bcrypt = require('bcrypt')
-const passport = require('passport')
 const Users=require("../Modules/UserSchema.js");
 
 router.get('/login',(req,res)=>{
@@ -10,6 +9,7 @@ router.get('/login',(req,res)=>{
 });
 router.post('/login', async (req, res, next) => {
     console.log("hi from login");
+    res.status(202).json({ message: "Accepted" }); // Send a JSON response
 });
 
 // router.get('/login', checkNotAuthenticated, (req, res) => res.render('login'));

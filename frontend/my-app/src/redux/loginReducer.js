@@ -1,28 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import postLogin from "../loginNetworkLayer.js";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const loginSlice = createSlice({
-  name: "login",
-  initialState: {
-    email: "",
-    password: "",
-    hasError: false,
-    canLogin: false,
-    alreadyLoggedIn: false,
-  },
-  reducers: {
-    setError: (state, action) => {
-      state.hasError = action.payload;
-    },
-    setCanLogin: (state, action) => {
-      async (event) => {
-        event.preventDefault(); 
-        postLogin(email, password);
-    }},
-    setAlreadyLoggedIn: (state, action) => {
-      state.alreadyLoggedIn = action.payload;
-    },
-  },
+export const loginSlice = createApi({
+  reducerPath: "loginApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3030" }),
+  endpoints: (builder) => ({
+    login: builder.mutation({
+      query: (body) => ({
+        url: "/login",
+        method: "POST",
+        body,
+        headers: { "Content-Type": "application/json" },
+      }),
+    }),
+  }),
 });
-const { setError, setCanLogin, setAlreadyLoggedIn } = loginSlice.actions;
-export default loginSlice.reducer;
+
+// ✅ Correctly export hooks and the API slice
+export const { useLoginMutation } = loginSlice;

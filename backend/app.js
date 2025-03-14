@@ -25,14 +25,6 @@ app.use(session({
   saveUninitialized: false
 }))
 const bcrypt = require('bcrypt')
-const passport = require('passport')
-const initializePassport = require('./passport-config.js')
-initializePassport(passport,
-  async email => await Users.findOne({ Email: email }),
-  async id => { await Users.findOne({ _id: id }) }
-)
-app.use(passport.initialize())
-app.use(passport.session())
 app.use(cors());
 
 const { checkAuthenticated, checkNotAuthenticated } = require('./Middleware/middleWare');

@@ -1,28 +1,20 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import postLogin from "../loginNetworkLayer.js";
-import { useSelector,useDispatch } from "react-redux";
-import {setCanLogin,setError,setAlreadyLoggedIn} from "../redux/loginReducer.js";
+import {useLoginMutation} from "../redux/loginReducer.js";
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = async (event) => {
-    event.preventDefault(); 
-    postLogin(email, password);
-  };
-
-
-  const dispatch = useDispatch();
-
+  const [login, { isLoading,isSuccess,isError, }] = useLoginMutation();
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error</div>;
   return (
     <Container >
       <Row className="justify-content-md-center mt-5">
         <Col xs={12} md={6}>
           <h2 className="text-center mb-4">Login</h2>
-          <p>Counter value: {value}</p>
-          <Button variant="primary" onClick={() => dispatch(increment())}>increment</Button>
-          <Form onSubmit={handleLogin}> 
+          <Form onSubmit={(e) => {
+            e.preventDefault();
+            login({email,password})}}> 
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
